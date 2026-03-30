@@ -1,15 +1,15 @@
-import sys
+from sys import maxsize
 from enum import Enum
 
 
-Inf = sys.maxsize
+Inf = maxsize
 
 
 class Direction(Enum):
-    HAUT = 1
     BAS = -1
-    GAUCHE = 2
-    DROIT = -2
+    HAUT = 1
+    GAUCHE = -2
+    DROIT = 2
 
 
 class Noeud:
@@ -18,22 +18,43 @@ class Noeud:
         self.prec = prec
         self.vu = vu
 
+    def regarder(self, distance, prec):
+        if (distance < self.distance):
+            self.distance = distance
+            self.prec = prec
+
 
 class Graphe:
     def __init__(self, n):
-        self.__data = [[(0 if i == j else Inf, None) for i in n] for j in n]
+        self.__distances = [[(0 if i == j else Inf, None) for i in range(n)] for j in range(n)]
 
     def ajouter(self, p1, p2, distance, direction):
-        self.__data[p1][p2] = (distance, direction)
-        self.__data[p2][p1] = (distance, direction * -1)
+        p1 -= 1
+        p2 -= 1
+        self.__distances[p1][p2] = (distance, direction)
+        self.__distances[p2][p1] = (distance, direction.value * -1)
 
     def trouver_chemin(self, debut, fin):
-        noeuds = [Noeud() for _ in range(len(self.__data))]
-        noeuds[debut].distance = 0
-        courant = debut
+        fin -= 1
 
-        while not noeuds[fin].vu:
-            courant = min(noeuds, key=lambda v: Inf if v.vu else v.distance)
+        noeuds = [Noeud() for _ in range(len(self.__distances))]
+        courant = debut - 1
+        noeuds[courant].distance = 0
+
+        while courant != fin:
+            courant = min(range(len(noeuds)), key=lambda n: Inf if noeuds[n].vu else noeuds[n].distance)
+            noeuds[courant].vu = True
+
+            for n, distance in enumerate(self.__distances[courant]):
+                noeuds[n].regarder(distance[0] + noeuds[courant].distance, courant)
+
+        chemin = []
+        while noeuds[courant].prec is not None:
+            prec = noeuds[courant].prec
+            chemin.append(self.__distances[prec][courant][1])
+            courant = prec
+
+        return chemin.reverse()
 
 
 graphe = Graphe(14)
@@ -57,4 +78,6 @@ for arc in [
     (12, 13, 2, Direction.DROIT),
     (13, 14, 2, Direction.DROIT),
 ]:
-    graphe.ajouter(arc[0], arc[1], arc[2], arc[3])
+    graphe.ajouter(*arc)  # https://stackoverflow.com/questions/48451228/how-to-spread-a-python-array
+
+graphe.trouver_chemin(2, 9)
