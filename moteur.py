@@ -22,3 +22,7 @@ class Moteur:
     def frein(self):
         self.__avant.on()
         self.__arriere.on()
+
+    def arret(self):
+        self.__avant.off()
+        self.__arriere.off()
