@@ -1,13 +1,13 @@
 class Moteur:
-    def __init__(self, en, avant, arriere, vitesse=1, freq=100):
+    def __init__(self, en, avant, arriere, vitesse=1, freq=10):
         self.__en = en
         self.__avant = avant
         self.__arriere = arriere
         self.freq = freq
-        self.__en.blink(vitesse)
+        self.set_vitesse(vitesse)
 
     def set_vitesse(self, vitesse):
-        tot = 1 / self.freq  # 0.01
+        tot = 1 / self.freq
         on = tot * vitesse
         self.__en.blink(on, tot - on)
 

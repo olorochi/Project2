@@ -4,34 +4,14 @@
 import devices
 from moteur import Moteur
 from capteurIR import CapteurIR
-from suiveurLigne import SuiveurLigne
-from time import sleep
+from robot import Robot
+from djisktra import graphe
 
-gauche = Moteur(devices.ENA, devices.IN1, devices.IN2, 0.2)
-droit = Moteur(devices.ENB, devices.IN3, devices.IN4, 0.2)
-#gauche.avant()
+gauche = Moteur(devices.ENA, devices.IN1, devices.IN2, 1)
+droit = Moteur(devices.ENB, devices.IN3, devices.IN4, 1)
 capteur = CapteurIR()
-suiveur = SuiveurLigne(capteur)
+robot = Robot(gauche, droit, capteur)
+robot.suivre_ligne()
 
-
-while True:
-    etat = suiveur.etat()
-    print(etat)
-
-    if etat == "INTERSECTION":
-        gauche.arret()
-        droit.arret()
-
-    elif etat == "GAUCHE":
-        gauche.arret()
-        droit.avant()
-
-    elif etat == "DROITE":
-        gauche.avant()
-        droit.arret()
-
-    else:  # PERDU
-        gauche.avant()
-        droit.avant()
-
-    sleep(0.05)
+# chemin = graphe.trouver_chemin(2, 9)
+# for direction in chemin:

@@ -4,8 +4,8 @@ from gpiozero import DigitalInputDevice
 
 class CapteurIR:
     def __init__(self):
-        self.__gauche = DigitalInputDevice(devices.IR_G)
-        self.__droit = DigitalInputDevice(devices.IR_D)
+        self.__gauche = devices.IR_G
+        self.__droit = devices.IR_D
 
     def gauche(self):
         return self.__gauche.value
