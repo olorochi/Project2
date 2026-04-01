@@ -1,15 +1,7 @@
 from sys import maxsize
-from enum import Enum
 
 
 Inf = maxsize
-
-
-class Direction(Enum):
-    BAS = -1
-    HAUT = 1
-    GAUCHE = -2
-    DROIT = 2
 
 
 class Noeud:
