@@ -1,5 +1,4 @@
 import devices
-from gpiozero import DigitalInputDevice
 
 
 class CapteurIR:
@@ -8,16 +7,10 @@ class CapteurIR:
         self.__droit = devices.IR_D
 
     def gauche(self):
-        return self.__gauche.value
-
-    def droit(self):
-        return self.__droit.value
-
-    def detection_gauche(self):
         return self.__gauche.value == 0
 
-    def detection_droite(self):
+    def droite(self):
         return self.__droit.value == 0
 
     def lire(self):
-        return (self.__gauche.value, self.__droit.value)
+        return (self.gauche(), self.droite())
