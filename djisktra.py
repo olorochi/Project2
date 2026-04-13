@@ -47,6 +47,7 @@ class Graphe:
             chemin.append(self.distances[prec][courant][1])
             courant = prec
 
+        chemin.reverse()
         return chemin
 
 
