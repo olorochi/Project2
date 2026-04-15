@@ -1,4 +1,5 @@
 from direction import Direction
+import time
 
 
 class Robot:
@@ -28,19 +29,21 @@ class Robot:
         capteur = self.__capteur_ir.droite if (avant is self.__gauche) else self.__capteur_ir.gauche
         avant.avant()
         arriere.arriere()
-        while (capteur()): pass
-        while (not capteur()): pass
-        while (capteur()): pass
+        time.sleep(0.2)
+        while (capteur()):
+            time.sleep(0.01)
+
 
     def tourner(self, direction):
+        print(f"Tourner: {direction}")
         if (direction == self.__direction):
             return
         elif (Direction.inverser(direction) == self.__direction):
-            self.tourner_ligner(self.__gauche, self.__droit)
-            self.tourner_ligner(self.__gauche, self.__droit)
+            self.tourner_ligne(self.__gauche, self.__droit)
+            self.tourner_ligne(self.__gauche, self.__droit)
         else:
             avant, arriere = self.__droit, self.__gauche
-            if (Direction.estSensHoraire(direction, self.__direction)):
+            if (Direction.estSensHoraire(self.__direction, direction)):
                 avant, arriere = arriere, avant
 
             self.tourner_ligne(avant, arriere)
@@ -48,6 +51,7 @@ class Robot:
         self.__direction = direction
 
     def suivre_ligne(self):
+        print("suivre_ligne")
         g, d = True, True
         while (g or d):
             if not g:
@@ -58,3 +62,7 @@ class Robot:
                 self.avant()
 
             g, d = self.__capteur_ir.lire()
+            time.sleep(0.01)
+
+        self.avant()
+        time.sleep(0.1)

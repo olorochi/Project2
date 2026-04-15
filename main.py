@@ -40,9 +40,9 @@ depart = lire_noeud(f"Noeud de départ (1-{noeud_max}): ")
 arrivee = lire_noeud(f"Noeud d'arrivée (1-{noeud_max}): ")
 direction_initiale = lire_direction()
 
-gauche = Moteur(devices.ENA, devices.IN1, devices.IN2, 0.7)
-droit = Moteur(devices.ENB, devices.IN3, devices.IN4, 0.7)
-capteur = CapteurIR()
+gauche = Moteur(devices.ENA, devices.IN1, devices.IN2, 0.4)
+droit = Moteur(devices.ENB, devices.IN3, devices.IN4, 0.4)
+capteur = CapteurIR(devices.IR_G, devices.IR_D)
 robot = Robot(gauche, droit, capteur, direction_initiale)
 
 chemin = graphe.trouver_chemin(depart, arrivee)

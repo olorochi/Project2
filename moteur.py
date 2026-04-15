@@ -4,12 +4,7 @@ class Moteur:
         self.__avant = avant
         self.__arriere = arriere
         self.freq = freq
-        self.set_vitesse(vitesse)
-
-    def set_vitesse(self, vitesse):
-        tot = 1 / self.freq
-        on = tot * vitesse
-        self.__en.blink(on, tot - on)
+        self.__en.value = vitesse
 
     def avant(self):
         self.__avant.on()

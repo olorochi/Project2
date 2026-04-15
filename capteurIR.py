@@ -2,9 +2,9 @@ import devices
 
 
 class CapteurIR:
-    def __init__(self):
-        self.__gauche = devices.IR_G
-        self.__droit = devices.IR_D
+    def __init__(self, gauche, droit):
+        self.__gauche = gauche
+        self.__droit = droit
 
     def gauche(self):
         return self.__gauche.value == 0
