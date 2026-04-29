@@ -25,8 +25,8 @@ class Robot:
         self.__droit.arret()
         self.__gauche.arret()
 
-    def tourner_ligne(self, avant, arriere):
-        capteur = self.__capteur_ir.droite if (avant is self.__gauche) else self.__capteur_ir.gauche
+    @staticmethod
+    def tourner_ligne(avant, arriere, capteur):
         avant.avant()
         arriere.arriere()
         time.sleep(0.2)
@@ -45,8 +45,11 @@ class Robot:
             avant, arriere = self.__droit, self.__gauche
             if (Direction.estSensHoraire(self.__direction, direction)):
                 avant, arriere = arriere, avant
+                capteur = self.__capteur_ir.gauche
+            else:
+                capteur = self.__capteur_ir.droite
 
-            self.tourner_ligne(avant, arriere)
+            self.tourner_ligne(avant, arriere, capteur)
 
         self.__direction = direction
 
@@ -54,10 +57,10 @@ class Robot:
         print("suivre_ligne")
         g, d = True, True
         while (g or d):
-            if not g:
-                self.gauche()
-            elif not d:
+            if g:
                 self.droite()
+            elif d:
+                self.gauche()
             else:
                 self.avant()
 
